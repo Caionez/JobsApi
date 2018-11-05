@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsApi", "JobsApi\JobsApi.csproj", "{BC873601-D55C-4B72-AABA-0EF174ADBF03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobsApi.Tests", "JobsApi.Tests\JobsApi.Tests.csproj", "{9EE6C745-B3F3-4A8F-ADFB-FFB4F054689A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC873601-D55C-4B72-AABA-0EF174ADBF03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC873601-D55C-4B72-AABA-0EF174ADBF03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC873601-D55C-4B72-AABA-0EF174ADBF03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC873601-D55C-4B72-AABA-0EF174ADBF03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EE6C745-B3F3-4A8F-ADFB-FFB4F054689A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EE6C745-B3F3-4A8F-ADFB-FFB4F054689A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EE6C745-B3F3-4A8F-ADFB-FFB4F054689A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EE6C745-B3F3-4A8F-ADFB-FFB4F054689A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0365137B-F294-42B4-8DAA-FC40FECCAAA7}
+	EndGlobalSection
+EndGlobal
