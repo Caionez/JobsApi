@@ -11,9 +11,9 @@ namespace Unisys_JobsApi.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly ITaskRepository _taskRepository;
+        private readonly IApiRepository _taskRepository;
 
-        public TasksController(ITaskRepository taskRepository)
+        public TasksController(IApiRepository taskRepository)
         {
             _taskRepository = taskRepository;
         }
@@ -22,7 +22,7 @@ namespace Unisys_JobsApi.Controllers
         [HttpGet]
         public IEnumerable<Models.Task> Get(DateTime? createdAt)
         {
-            return _taskRepository.GetAll(createdAt);
+            return _taskRepository.GetAllTasks(createdAt);
         }
 
         // POST api/tasks
@@ -32,7 +32,7 @@ namespace Unisys_JobsApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            _taskRepository.Add(value);
+            _taskRepository.AddTask(value);
 
             return CreatedAtRoute("tasks", value);
         }
@@ -41,7 +41,7 @@ namespace Unisys_JobsApi.Controllers
         [HttpGet("{id}", Name = "GetTask")]
         public Models.Task GetById(int id)
         {
-            var item = _taskRepository.Find(id);
+            var item = _taskRepository.FindTask(id);
 
             return item;
         }
@@ -50,12 +50,12 @@ namespace Unisys_JobsApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var task = _taskRepository.Find(id);
+            var task = _taskRepository.FindTask(id);
 
             if (task == null)
                 return NotFound();
 
-            _taskRepository.Remove(id);
+            _taskRepository.RemoveTask(id);
             return NoContent();
         }
 
@@ -63,10 +63,10 @@ namespace Unisys_JobsApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Models.Task value)
         {
-            if (value == null || value.Id != id)
+            if (value == null || value.Id != id || !ModelState.IsValid)
                 return BadRequest();
 
-            var task = _taskRepository.Find(id);
+            var task = _taskRepository.FindTask(id);
 
             if (task == null)
                 return NotFound();
@@ -76,7 +76,7 @@ namespace Unisys_JobsApi.Controllers
              task.Weight = value.Weight;
              task.CreatedAt = value.CreatedAt;
 
-            _taskRepository.Update(task);
+            _taskRepository.UpdateTask(task);
             return NoContent();
         }
     }

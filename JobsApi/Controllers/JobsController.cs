@@ -8,9 +8,9 @@ namespace Unisys_JobsApi.Controllers
     [ApiController]
     public class JobsController : ControllerBase
     {
-        private readonly IJobRepository _jobRepository;
+        private readonly IApiRepository _jobRepository;
 
-        public JobsController(IJobRepository jobRepository)
+        public JobsController(IApiRepository jobRepository)
         {
             _jobRepository = jobRepository;
         }
@@ -19,7 +19,7 @@ namespace Unisys_JobsApi.Controllers
         [HttpGet]
         public IEnumerable<Job> Get(bool? sortByWeight)
         {
-            return _jobRepository.GetAll(sortByWeight);
+            return _jobRepository.GetAllJobs(sortByWeight);
         }
 
         // POST api/jobs
@@ -29,7 +29,7 @@ namespace Unisys_JobsApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            _jobRepository.Add(value);
+            _jobRepository.AddJob(value);
 
             return CreatedAtRoute("jobs", value);
         }
@@ -38,7 +38,7 @@ namespace Unisys_JobsApi.Controllers
         [HttpGet("{id}", Name = "GetJob")]
         public Job GetById(int id)
         {
-            var item = _jobRepository.Find(id);
+            var item = _jobRepository.FindJob(id);
 
             return item;
         }
@@ -47,12 +47,12 @@ namespace Unisys_JobsApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var job = _jobRepository.Find(id);
+            var job = _jobRepository.FindJob(id);
 
             if (job == null)
                 return NotFound();
 
-            _jobRepository.Remove(id);
+            _jobRepository.RemoveJob(id);
             return NoContent();
         }
 
@@ -63,7 +63,7 @@ namespace Unisys_JobsApi.Controllers
             if (value == null || value.Id != id || !ModelState.IsValid)
                 return BadRequest();
 
-            var job = _jobRepository.Find(id);
+            var job = _jobRepository.FindJob(id);
 
             if (job == null)
                 return NotFound();
@@ -71,9 +71,8 @@ namespace Unisys_JobsApi.Controllers
             job.Name = value.Name;
             job.Active = value.Active;
             job.Tasks = value.Tasks;
-            job.ParentJob = value.ParentJob;
 
-            _jobRepository.Update(job);
+            _jobRepository.UpdateJob(job);
             return NoContent();
         }
     }

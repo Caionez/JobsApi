@@ -1,6 +1,7 @@
+using JobsApi.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Unisys_JobsApi.Models
 {
@@ -14,6 +15,9 @@ namespace Unisys_JobsApi.Models
         [Required]
         public int Weight { get; set; }
         public bool Completed { get; set; }
+
+        [DataType(DataType.Date)]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime CreatedAt { get; set; }
     }
 }

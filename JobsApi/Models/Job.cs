@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Unisys_JobsApi.Models
 {
@@ -13,10 +12,6 @@ namespace Unisys_JobsApi.Models
         public string Name { get; set; }
         [Required]
         public bool Active { get; set; }
-        public List<Models.Task> Tasks { get; set; }
-        
-        [ForeignKey("ParentJobId")]
-        public virtual Job ParentJob { get; set; }
-        public int? ParentJobId { get; set; }
+        public virtual List<Task> Tasks { get; set; }
     }
 }

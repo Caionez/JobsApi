@@ -8,44 +8,44 @@ namespace Unisys_JobsApi.Tests
 {
     public class JobsControllerTest
     {
-        readonly IJobRepository _jobRepository;
+        readonly IApiRepository _jobRepository;
         readonly JobsController _controller;        
 
         public JobsControllerTest()
         {
-            _jobRepository = new JobRepositoryFake();
+            _jobRepository = new ApiRepositoryFake();
             _controller = new JobsController(_jobRepository);
         }
 
         [Fact]
-        public void Get_WhenCalled_ReturnsListOfJobs()
+        public void Get_ReturnsListOfJobs()
         {
             var result = _controller.Get(true);
             Assert.IsAssignableFrom<IEnumerable<Job>>(result);
         }
                 
         [Fact]
-        public void Get_WhenCalled_ReturnsAllItems()
+        public void Get_ReturnsAllItems()
         {
             var result = _controller.Get(true);
             Assert.Equal(2, (result as List<Job>).Count);
         }
 
         [Fact]
-        public void Post_WhenCalled_CreatesJob()
+        public void Post_CreatesJob()
         {
             var taskA = new Task() { Id = 1, Name = "Task 4", Completed = false, CreatedAt = System.DateTime.Now, Weight = 1 };
-            var jobA = new Job { Id = 3, Name = "Job 3", Active = true, ParentJob = null, Tasks = new List<Task>() { taskA } };
+            var jobA = new Job { Id = 3, Name = "Job 3", Active = true, Tasks = new List<Task>() { taskA } };
 
             var result = _controller.Post(jobA);
             Assert.IsType<CreatedAtRouteResult>(result);
         }
 
         [Fact]
-        public void Post_WhenCalled_FailCreatingJob()
+        public void Post_FailCreatingJob_InvalidModel()
         {
             var taskA = new Task() { Id = 1, Name = "Task 4", Completed = false, CreatedAt = System.DateTime.Now, Weight = 1 };
-            var jobA = new Job { Id = 1, Name = "Job 3", Active = true, ParentJob = null, Tasks = new List<Task>() { taskA } };
+            var jobA = new Job { Id = 1, Name = "Job 3", Active = true, Tasks = new List<Task>() { taskA } };
             _controller.ModelState.AddModelError("fakeModelError", "fakeModelError");
 
             var result = _controller.Post(jobA);
@@ -53,58 +53,58 @@ namespace Unisys_JobsApi.Tests
         }
 
         [Fact]
-        public void GetById_WhenCalled_ReturnsSpecificJob()
+        public void GetById_ReturnsSpecificJob()
         {
             var result = _controller.GetById(1);
             Assert.NotNull(result);
         }
 
         [Fact]
-        public void GetById_WhenCalled_ReturnsNull()
+        public void GetById_ReturnsNull()
         {
             var result = _controller.GetById(3);
             Assert.Null(result);
         }
 
         [Fact]
-        public void Delete_WhenCalled_DeletesJob()
+        public void Delete_DeletesJob()
         {
             var result = _controller.Delete(1);
             Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
-        public void Delete_WhenCalled_FailDeletingJobNotFound()
+        public void Delete_FailDeletingJob_NotFound()
         {
             var result = _controller.Delete(3);
             Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
-        public void Put_WhenCalled_UpdatesJob()
+        public void Put_UpdatesJob()
         {
             var taskA = new Task() { Id = 1, Name = "Task 1 Edited", Completed = true, CreatedAt = System.DateTime.Now, Weight = 1 };
-            var jobA = new Job { Id = 1, Name = "Job 1 Edited", Active = true, ParentJob = null, Tasks = new List<Task>() { taskA } };
+            var jobA = new Job { Id = 1, Name = "Job 1 Edited", Active = true, Tasks = new List<Task>() { taskA } };
 
             var result = _controller.Put(jobA.Id, jobA);
             Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
-        public void Put_WhenCalled_FailUpdatingJobNotFound()
+        public void Put_FailUpdatingJob_NotFound()
         {
             var taskA = new Task() { Id = 1, Name = "Task 4 Edited", Completed = false, CreatedAt = System.DateTime.Now, Weight = 1 };
-            var jobA = new Job { Id = 3, Name = "Job 3 Edited", Active = true, ParentJob = null, Tasks = new List<Task>() { taskA } };
+            var jobA = new Job { Id = 3, Name = "Job 3 Edited", Active = true, Tasks = new List<Task>() { taskA } };
 
             var result = _controller.Put(jobA.Id, jobA);
             Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
-        public void Put_WhenCalled_FailUpdatingJobInvalidModel()
+        public void Put_FailUpdatingJob_InvalidModel()
         {
-            var taskA = new Task() { Id = 1, Name = "Task 1", Completed = false, CreatedAt = System.DateTime.Now, Weight = 1 };
-            var jobA = new Job { Id = 1, Name = "Job A", Active = true, ParentJob = null, Tasks = new List<Task>() { taskA } };
+            var taskA = new Task() { Id = 1, Name = "Task 1 Edited", Completed = false, CreatedAt = System.DateTime.Now, Weight = 1 };
+            var jobA = new Job { Id = 1, Name = "Job 1 Edited", Active = true, Tasks = new List<Task>() { taskA } };
             _controller.ModelState.AddModelError("fakeModelError", "fakeModelError");
 
             var result = _controller.Put(jobA.Id, jobA);
